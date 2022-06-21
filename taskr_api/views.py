@@ -6,6 +6,13 @@ from .settings import (
 )
 
 
+@api_view()
+def root_route(request):
+    return Response({
+        'message': 'Backend API for taskr-react project'
+    })
+
+
 # dj-rest-auth logout view fix
 @api_view(['POST'])
 def logout_route(request):
