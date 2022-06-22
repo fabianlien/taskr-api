@@ -104,6 +104,7 @@ INSTALLED_APPS = [
     'corsheaders',
     # Custom apps:
     'profiles',
+    'tasks',
 ]
 
 SITE_ID = 1

@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from .models import Profile
+from .models import Task
 
 
-class ProfileSerializer(serializers.ModelSerializer):
+class TaskSerializer(serializers.ModelSerializer):
     """
-    Serializes all user profiles and displays all model fields.
+    Serializes all user tasks and displays all model fields.
     """
     owner = serializers.ReadOnlyField(source='owner.username')
     is_owner = serializers.SerializerMethodField()
@@ -14,8 +14,9 @@ class ProfileSerializer(serializers.ModelSerializer):
         return request.user == obj.owner
 
     class Meta:
-        model = Profile
+        model = Task
         fields = [
-            'id', 'owner', 'is_owner', 'created_at', 'updated_at',
-            'name', 'bio', 'profile_image'
+            'id', 'owner', 'title', 'is_owner', 'created_at',
+            'updated_at', 'due_by', 'description', 'is_overdue',
+            'is_completed', 'is_important'
         ]
