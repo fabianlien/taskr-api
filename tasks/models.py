@@ -14,6 +14,7 @@ class Task(models.Model):
     is_overdue = models.BooleanField(default=False)
     is_completed = models.BooleanField(default=False)
     is_important = models.BooleanField(default=False)
+    is_public = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['-due_by', '-created_at']

@@ -15,7 +15,11 @@ class ProfileList(generics.ListAPIView):
     ).order_by('tasks_count')
     serializer_class = ProfileSerializer
     filter_backends = [
-        filters.OrderingFilter
+        filters.OrderingFilter,
+        filters.SearchFilter,
+    ]
+    search_fields = [
+        'owner__username'
     ]
     ordering_fields = ['tasks_count']
 
@@ -25,5 +29,8 @@ class ProfileDetail(generics.RetrieveUpdateAPIView):
     Retrieve or update a profile if you're the owner.
     """
     permission_classes = [IsOwnerOrReadOnly]
-    queryset = Profile.objects.all()
+    queryset = Profile.objects.annotate(
+        tasks_count=Count('owner__task', distinct=True),
+    ).order_by('tasks_count')
     serializer_class = ProfileSerializer
+    ordering_fields = ['tasks_count']
