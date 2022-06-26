@@ -11,7 +11,12 @@ class TaskList(generics.ListCreateAPIView):
     """
     serializer_class = TaskSerializer
     permission_classes = [permissions.IsAuthenticated]
-    queryset = Task.objects.order_by('-due_by', '-created_at')
+    queryset = Task.objects.order_by(
+        'is_completed',
+        '-is_important',
+        'due_by',
+        '-created_at'
+    )
     filter_backends = [
         filters.SearchFilter,
         DjangoFilterBackend
@@ -19,7 +24,8 @@ class TaskList(generics.ListCreateAPIView):
     search_fields = ['title']
     filterset_fields = [
         'owner__profile',
-        'is_public'
+        'is_public',
+        'is_completed'
     ]
 
     def perform_create(self, serializer):

@@ -17,7 +17,7 @@ class Task(models.Model):
     is_public = models.BooleanField(default=False)
 
     class Meta:
-        ordering = ['-due_by', '-created_at']
+        ordering = ['due_by']
 
     def __str__(self):
         return f'{self.title}'
