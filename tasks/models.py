@@ -29,10 +29,11 @@ class TaskItem(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     content = models.TextField(max_length=150)
-    attached_file = models.FileField(upload_to='task_items/', blank=True)
+    # is_completed = models.BooleanField(default=False)
+    # attached_file = models.FileField(upload_to='task_items/', blank=True)
 
     class Meta:
         ordering = ['updated_at', 'created_at']
 
     def __str__(self):
-        return f'task #{self.task_id} - item #{self.pk}'
+        return f'{self.content}'
