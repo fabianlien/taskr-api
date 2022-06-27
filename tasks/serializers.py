@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Task
+from .models import Task, TaskItem
 
 
 class TaskSerializer(serializers.ModelSerializer):
@@ -17,6 +17,11 @@ class TaskSerializer(serializers.ModelSerializer):
         model = Task
         fields = [
             'id', 'owner', 'title', 'is_owner', 'is_public', 'created_at',
-            'updated_at', 'due_by', 'description', 'is_overdue',
-            'is_completed', 'is_important'
+            'updated_at', 'due_by', 'description', 'is_completed', 'is_important'
         ]
+
+
+class TaskItemSerializer(serializers.ModelSerializer):
+    """
+    Serializes all user tasks and displays all model fields.
+    """
