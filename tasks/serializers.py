@@ -37,6 +37,6 @@ class TaskItemSerializer(serializers.ModelSerializer):
         model = TaskItem
         fields = [
             'id', 'owner', 'task_id', 'content', 'created_at', 'updated_at',
-            'is_owner',
-            # 'is_completed', 'attached_file'
+            'is_owner', 'is_completed', 
+            # 'attached_file'
         ]

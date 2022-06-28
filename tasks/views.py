@@ -44,11 +44,14 @@ class TaskDetail(generics.RetrieveUpdateDestroyAPIView):
 
 class TaskItemList(generics.ListCreateAPIView):
     """
-    List all tasks for a specific task and create functionality
+    List all tasks or provides filter 
+    for a specific task and create functionality
     """
     serializer_class = TaskItemSerializer
     permission_classes = [permissions.IsAuthenticated]
     queryset = TaskItem.objects.all().order_by('updated_at', 'created_at')
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['task_id']
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
