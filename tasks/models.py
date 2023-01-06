@@ -4,7 +4,12 @@ from django.contrib.auth.models import User
 
 class Task(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    # requested_by = models.???
+    requested_ID = models.ForeignKey(
+        User, on_delete=models.CASCADE,
+        null=True,
+        related_name='requested_ID'
+    )
+    requested_username = models.CharField(max_length=150, null=True)
     title = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -13,6 +18,8 @@ class Task(models.Model):
     is_completed = models.BooleanField(default=False)
     is_important = models.BooleanField(default=False)
     is_public = models.BooleanField(default=False)
+    is_request = models.BooleanField(default=False)
+    request_accepted = models.BooleanField(default=False, blank=True)
 
     class Meta:
         ordering = ['due_by']

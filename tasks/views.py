@@ -1,6 +1,7 @@
 from taskr_api.permissions import IsOwnerOrReadOnly
 from rest_framework import generics, permissions, filters
 from django_filters.rest_framework import DjangoFilterBackend
+from django.contrib.auth.models import User
 from .models import Task, TaskItem
 from.serializers import TaskSerializer, TaskItemSerializer
 
@@ -10,12 +11,12 @@ class TaskList(generics.ListCreateAPIView):
     List all tasks from all users and create functionality
     """
     serializer_class = TaskSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsOwnerOrReadOnly]
     queryset = Task.objects.order_by(
+        '-created_at',
         'is_completed',
         '-is_important',
         'due_by',
-        '-created_at'
     )
     filter_backends = [
         filters.SearchFilter,
@@ -25,16 +26,23 @@ class TaskList(generics.ListCreateAPIView):
     filterset_fields = [
         'owner__profile',
         'is_public',
-        'is_completed'
+        'is_completed',
+        'is_request',
+        'requested_ID'
     ]
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+        owner = self.request.user
+        if serializer.validated_data.get("is_request", False) is True:
+            owner = User.objects.get(
+                username=serializer.validated_data.get('owner').get('username')
+            )
+        serializer.save(owner=owner)
 
 
 class TaskDetail(generics.RetrieveUpdateDestroyAPIView):
     """
-    Display a single task and provide RUD functionality if us is the owner
+    Display a single task and provide CRUD functionality if us is the owner
     """
 
     serializer_class = TaskSerializer
