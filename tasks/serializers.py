@@ -9,17 +9,15 @@ class TaskSerializer(serializers.ModelSerializer):
     is_owner = serializers.SerializerMethodField()
     owner = serializers.CharField(source='owner.username')
 
-    def get_is_owner(self, validated_data):
+    def get_is_owner(self, obj):
         request = self.context['request']
-        if request.GET:
-            return request.user == validated_data.owner
-        return False
+        return request.user == obj.owner
 
     class Meta:
         model = Task
         fields = [
             'id', 'owner', 'requested_ID', 'requested_username', 'title',
-            'is_owner', 'is_request', 'request_accepted', 'is_public',
+            'is_owner', 'request_accepted', 'is_public',
             'created_at', 'updated_at', 'due_by', 'description',
             'is_completed', 'is_important'
         ]

@@ -13,8 +13,8 @@ class TaskList(generics.ListCreateAPIView):
     serializer_class = TaskSerializer
     permission_classes = [IsOwnerOrReadOnly]
     queryset = Task.objects.order_by(
-        '-created_at',
         'is_completed',
+        '-created_at',
         '-is_important',
         'due_by',
     )
@@ -27,8 +27,8 @@ class TaskList(generics.ListCreateAPIView):
         'owner__profile',
         'is_public',
         'is_completed',
-        'is_request',
-        'requested_ID'
+        'requested_ID',
+        'request_accepted'
     ]
 
     def perform_create(self, serializer):

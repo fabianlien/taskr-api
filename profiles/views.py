@@ -19,9 +19,14 @@ class ProfileList(generics.ListAPIView):
         filters.SearchFilter,
     ]
     search_fields = [
-        'owner__username'
+        'owner__username',
+        'name'
     ]
-    ordering_fields = ['tasks_count']
+    ordering_fields = [
+        'tasks_count',
+        '-created_at',
+        'updated_at'
+        ]
 
 
 class ProfileDetail(generics.RetrieveUpdateAPIView):

@@ -18,8 +18,9 @@ class Task(models.Model):
     is_completed = models.BooleanField(default=False)
     is_important = models.BooleanField(default=False)
     is_public = models.BooleanField(default=False)
-    is_request = models.BooleanField(default=False)
-    request_accepted = models.BooleanField(default=False, blank=True)
+    request_accepted = models.CharField(
+        blank=True, default='0', max_length=5
+        )
 
     class Meta:
         ordering = ['due_by']
