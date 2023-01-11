@@ -33,7 +33,7 @@ class TaskList(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         owner = self.request.user
-        if serializer.validated_data.get("is_request", False) is True:
+        if serializer.validated_data.get("request_accepted") == "no":
             owner = User.objects.get(
                 username=serializer.validated_data.get('owner').get('username')
             )
@@ -42,12 +42,15 @@ class TaskList(generics.ListCreateAPIView):
 
 class TaskDetail(generics.RetrieveUpdateDestroyAPIView):
     """
-    Display a single task and provide CRUD functionality if us is the owner
+    Display a single task and provide CRUD functionality if user is the owner
     """
 
     serializer_class = TaskSerializer
     permission_classes = [IsOwnerOrReadOnly]
     queryset = Task.objects.order_by('-created_at')
+
+    def perform_update(self, serializer):
+        serializer.save(owner=self.request.user)
 
 
 class TaskItemList(generics.ListCreateAPIView):
@@ -56,7 +59,7 @@ class TaskItemList(generics.ListCreateAPIView):
     for a specific task and create functionality
     """
     serializer_class = TaskItemSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsOwnerOrReadOnly]
     queryset = TaskItem.objects.all().order_by('updated_at', 'created_at')
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['task_id']
