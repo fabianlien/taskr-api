@@ -66,8 +66,8 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = 'DEV' in os.environ
 
 ALLOWED_HOSTS = [
-   os.environ.get('ALLOWED_HOST'),
    'localhost',
+   'taskr-api.herokuapp.com'
 ]
 
 if 'CLIENT_ORIGIN' in os.environ:
@@ -79,10 +79,6 @@ if 'CLIENT_ORIGIN_DEV' in os.environ:
     CORS_ALLOWED_ORIGIN_REGEXES = [
         rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
     ]
-
-CORS_ALLOW_CREDENTIALS = True
-
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -120,6 +116,17 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+if 'CLIENT_ORIGIN' in os.environ:
+    CORS_ALLOWED_ORIGINS = [
+        os.environ.get('CLIENT_ORIGIN')
+    ]
+else:
+    CORS_ALLOWED_ORIGIN_REGEXES = [
+         r"^https://.*\.gitpod\.io$",
+    ]
+
+CORS_ALLOW_CREDENTIALS = True  
 
 ROOT_URLCONF = 'taskr_api.urls'
 

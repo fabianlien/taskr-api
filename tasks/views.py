@@ -14,9 +14,9 @@ class TaskList(generics.ListCreateAPIView):
     permission_classes = [IsOwnerOrReadOnly]
     queryset = Task.objects.order_by(
         'is_completed',
+        'due_by',
         '-created_at',
         '-is_important',
-        'due_by',
     )
     filter_backends = [
         filters.SearchFilter,
@@ -60,7 +60,7 @@ class TaskItemList(generics.ListCreateAPIView):
     """
     serializer_class = TaskItemSerializer
     permission_classes = [IsOwnerOrReadOnly]
-    queryset = TaskItem.objects.all().order_by('updated_at', 'created_at')
+    queryset = TaskItem.objects.all().order_by('is_completed', 'created_at')
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['task_id']
 

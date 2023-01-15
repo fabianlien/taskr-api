@@ -38,7 +38,6 @@ class TaskItem(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     content = models.TextField(max_length=150)
     is_completed = models.BooleanField(default=False)
-    # attached_file = models.FileField(upload_to='task_items/', blank=True)
 
     class Meta:
         ordering = ['updated_at', 'created_at']

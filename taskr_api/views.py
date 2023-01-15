@@ -9,7 +9,8 @@ from .settings import (
 @api_view()
 def root_route(request):
     return Response({
-        'message': 'Backend API for taskr-react project'
+        'message': 'Backend API for taskr-react project.',
+        'endpoints': ['/tasks', '/profiles', '/taskitems']
     })
 
 
