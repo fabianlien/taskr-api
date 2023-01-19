@@ -1,6 +1,7 @@
 from rest_framework import generics, filters
 from django.db.models import Count
 from taskr_api.permissions import IsOwnerOrReadOnly
+from django_filters.rest_framework import DjangoFilterBackend
 from .models import Profile
 from .serializers import ProfileSerializer
 
@@ -17,6 +18,7 @@ class ProfileList(generics.ListAPIView):
     filter_backends = [
         filters.OrderingFilter,
         filters.SearchFilter,
+        DjangoFilterBackend
     ]
     search_fields = [
         'owner__username',
@@ -27,6 +29,10 @@ class ProfileList(generics.ListAPIView):
         '-created_at',
         'updated_at'
         ]
+
+    filterset_fields = [
+        'owner__username'
+    ]
 
 
 class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):

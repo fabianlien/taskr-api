@@ -1,4 +1,5 @@
 from django.db import models
+from .validators import validate_file_size
 from django.contrib.auth.models import User
 
 
@@ -9,7 +10,9 @@ class Profile(models.Model):
     name = models.CharField(max_length=50, blank=True)
     bio = models.TextField(max_length=300, blank=True)
     profile_image = models.ImageField(
-        upload_to='images/', default='../default_profile_x3wzpb'
+        upload_to='images/',
+        default='../default_profile_x3wzpb',
+        validators=[validate_file_size]
     )
 
     class Meta:
