@@ -25,7 +25,7 @@ class TaskSerializer(serializers.ModelSerializer):
 
 class TaskItemSerializer(serializers.ModelSerializer):
     """
-    Serializes all user tasks and displays all model fields.
+    Serializes all user task items and displays all model fields.
     """
     owner = serializers.ReadOnlyField(source='owner.username')
     is_owner = serializers.SerializerMethodField()
@@ -39,5 +39,4 @@ class TaskItemSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'owner', 'task_id', 'content', 'created_at', 'updated_at',
             'is_owner', 'is_completed',
-            # 'attached_file'
         ]
